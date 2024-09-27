@@ -37,7 +37,7 @@ local function completions(ArgLead, CmdLine, CursorPos)
   return { "next", "prev" }
 end
 
-vim.api.nvim_create_user_command('CycleColorscheme', cycle_colorscheme, {
+vim.api.nvim_create_user_command('ColorschemeCycle', cycle_colorscheme, {
   nargs = "?",
   complete = completions,
 })
