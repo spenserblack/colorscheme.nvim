@@ -21,14 +21,14 @@ local function decrement_index()
 end
 
 local function cycle_colorscheme(opts)
+  index, _ = selected_color()
   local direction = opts.fargs[1] or 'next'
   if direction == 'next' then
     increment_index()
   elseif direction == 'prev' then
     decrement_index()
   end
-  local selected = nil
-  index, selected = selected_color()
+  local selected = colors[index]
   vim.cmd.colorscheme(selected)
   print(selected)
 end
