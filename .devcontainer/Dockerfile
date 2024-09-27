@@ -1,2 +1,2 @@
 FROM mcr.microsoft.com/devcontainers/base:debian
-RUN apt-get update && apt-get install lua5.1
+RUN apt-get update && apt-get install -y lua5.1
