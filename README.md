@@ -2,7 +2,8 @@
 
 ## Usage
 
-- `:ColorschemeCycle` / `:ColorschemeCycle next`: Use the next available colorscheme
+- `:ColorschemeCycle` / `:ColorschemeCycle select`: Open a menu to preview and select a colorscheme
+- `:ColorschemeCycle next`: Use the next available colorscheme
 - `:ColorschemeCycle prev`: use the previous available colorscheme
 
 ### Keymapping
