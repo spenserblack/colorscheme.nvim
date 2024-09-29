@@ -23,3 +23,17 @@ vim.keymap.set('n', '<C-c><up>', '<cmd>ColorschemeCycle prev<cr>')
 nnoremap <C-c><down> :ColorschemeCycle next<CR>
 nnoremap <C-c><up> :ColorschemeCycle prev<CR>
 ```
+
+## Installation
+
+With [lazy.nvim][lazy-nvim]:
+
+```lua
+-- plugins.lua
+return {
+  "spenserblack/colorschemecycle.nvim",
+  -- ...
+}
+```
+
+[lazy-nvim]: https://github.com/folke/lazy.nvim
