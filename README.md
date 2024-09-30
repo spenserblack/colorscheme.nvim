@@ -18,4 +18,11 @@ return {
 }
 ```
 
+### Dependencies
+
+If you install with [lazy.nvim][lazy-nvim] these should be handled automatically, but if you use
+another package manager then you may need to manually install these dependencies.
+
+- [nui.nvim](https://github.com/MunifTanjim/nui.nvim)
+
 [lazy-nvim]: https://github.com/folke/lazy.nvim
