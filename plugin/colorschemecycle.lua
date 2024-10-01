@@ -1,21 +1,15 @@
-local colors = vim.fn.getcompletion("", "color")
-
--- Gets the index and name of the current color
-local function selected_color()
-  local selected = vim.g.colors_name
-  for index, color in ipairs(colors) do
-    if color == selected then
-      return index, color
-    end
-  end
-end
-
-local index, _ = selected_color()
-
 local function show_menu()
-  local previous_color = vim.g.colors_name
+  local colorschemecycle = require("colorschemecycle")
   local Menu = require("nui.menu")
   local event = require("nui.utils.autocmd").event
+
+  local previous_color = vim.g.colors_name
+  local previous_bg = vim.o.background
+
+  local function reset()
+    vim.o.background = previous_bg
+    vim.cmd.colorscheme(previous_color)
+  end
 
   local popup_options = {
     position = "90%",
@@ -35,10 +29,47 @@ local function show_menu()
       winhighlight = "Normal:Normal",
     }
   }
+
+  local dark_colorschemes = colorschemecycle.get_dark_colorschemes()
+  local light_colorschemes = colorschemecycle.get_light_colorschemes()
+  local neutral_colorschemes = colorschemecycle.get_neutral_colorschemes()
+
+  local sections = {
+    { label = "Dark", colorschemes = dark_colorschemes, background = "dark", duplicate_finders = {
+      colorschemecycle.has_light_colorscheme,
+      colorschemecycle.has_neutral_colorscheme,
+    } },
+    { label = "Light", colorschemes = light_colorschemes, background = "light", duplicate_finders = {
+      colorschemecycle.has_dark_colorscheme,
+      colorschemecycle.has_neutral_colorscheme,
+    } },
+    { label = "Neutral", colorschemes = neutral_colorschemes, duplicate_finders = {
+      -- NOTE This should never actually happen, since a dark colorscheme should only have
+      --      a light counterpart and never a neutral counterpart, and the same for
+      --      light colorschemes, but just in case.
+      colorschemecycle.has_dark_colorscheme,
+      colorschemecycle.has_light_colorscheme,
+    } },
+  }
+
   local lines = {}
-  for i, color in ipairs(colors) do
-    lines[i] = Menu.item(color)
+  for _, section in ipairs(sections) do
+    table.insert(lines, Menu.separator(section.label .. " Colorschemes"))
+    for _, colorscheme in ipairs(section.colorschemes) do
+      local has_duplicate = false
+      for _, duplicate_finder in ipairs(section.duplicate_finders) do
+        if duplicate_finder(colorscheme) then has_duplicate = true end
+      end
+
+      local name = (has_duplicate and colorscheme .. " (" .. string.lower(section.label) .. ")") or colorscheme
+
+      table.insert(lines, Menu.item(name, {
+        colorscheme = colorscheme,
+        background = section.background,
+      }))
+    end
   end
+
   local menu = Menu(popup_options, {
     lines = lines,
     max_width = 20,
@@ -49,15 +80,14 @@ local function show_menu()
       submit = { "<CR>", "<Space>" },
     },
     on_close = function()
-      vim.cmd.colorscheme(previous_color)
+      reset()
     end,
     on_change = function(item, menu)
-      vim.cmd.colorscheme(item.text)
+      vim.o.background = item.background
+      vim.cmd.colorscheme(item.colorscheme)
     end,
     on_submit = function(item)
-      local selected = nil
-      index, selected = selected_color()
-      print(selected)
+      print(item.colorscheme)
     end
   })
 
@@ -68,15 +98,6 @@ local function show_menu()
   end)
 end
 
-local function cycle_colorscheme(opts)
-  index, _ = selected_color()
-  show_menu()
-  local selected = colors[index]
-  vim.cmd.colorscheme(selected)
-  print(selected)
-end
-
-vim.api.nvim_create_user_command('ColorschemeCycle', cycle_colorscheme, {
-  nargs = "?",
+vim.api.nvim_create_user_command('ColorschemeCycle', show_menu, {
+  nargs = 0,
 })
-
