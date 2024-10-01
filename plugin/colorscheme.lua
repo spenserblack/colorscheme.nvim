@@ -13,7 +13,7 @@ local function show_menu()
 
   local popup_options = {
     position = {
-      row = "100%",
+      row = "90%",
       col = "50%",
     },
     size = {
