@@ -12,9 +12,10 @@ local function show_menu()
   end
 
   local popup_options = {
+    anchor = "SW",
     position = {
-      row = "90%",
-      col = "10%",
+      row = 0,
+      col = "20%",
     },
     size = {
       width = "80%",
