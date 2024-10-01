@@ -1,5 +1,5 @@
 local function show_menu()
-  local colorschemecycle = require("colorschemecycle")
+  local colorscheme = require("colorscheme")
   local Menu = require("nui.menu")
   local event = require("nui.utils.autocmd").event
 
@@ -30,25 +30,25 @@ local function show_menu()
     }
   }
 
-  local dark_colorschemes = colorschemecycle.get_dark_colorschemes()
-  local light_colorschemes = colorschemecycle.get_light_colorschemes()
-  local neutral_colorschemes = colorschemecycle.get_neutral_colorschemes()
+  local dark_colorschemes = colorscheme.get_dark_colorschemes()
+  local light_colorschemes = colorscheme.get_light_colorschemes()
+  local neutral_colorschemes = colorscheme.get_neutral_colorschemes()
 
   local sections = {
     { label = "Dark", colorschemes = dark_colorschemes, background = "dark", duplicate_finders = {
-      colorschemecycle.has_light_colorscheme,
-      colorschemecycle.has_neutral_colorscheme,
+      colorscheme.has_light_colorscheme,
+      colorscheme.has_neutral_colorscheme,
     } },
     { label = "Light", colorschemes = light_colorschemes, background = "light", duplicate_finders = {
-      colorschemecycle.has_dark_colorscheme,
-      colorschemecycle.has_neutral_colorscheme,
+      colorscheme.has_dark_colorscheme,
+      colorscheme.has_neutral_colorscheme,
     } },
     { label = "Neutral", colorschemes = neutral_colorschemes, duplicate_finders = {
       -- NOTE This should never actually happen, since a dark colorscheme should only have
       --      a light counterpart and never a neutral counterpart, and the same for
       --      light colorschemes, but just in case.
-      colorschemecycle.has_dark_colorscheme,
-      colorschemecycle.has_light_colorscheme,
+      colorscheme.has_dark_colorscheme,
+      colorscheme.has_light_colorscheme,
     } },
   }
 
@@ -98,6 +98,6 @@ local function show_menu()
   end)
 end
 
-vim.api.nvim_create_user_command('ColorschemeCycle', show_menu, {
+vim.api.nvim_create_user_command('Colorscheme', show_menu, {
   nargs = 0,
 })

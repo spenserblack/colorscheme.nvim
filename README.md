@@ -1,8 +1,8 @@
-# colorschemecycle.nvim
+# colorscheme.nvim
 
 ## Usage
 
-- `:ColorschemeCycle`: Open a menu to preview and select a colorscheme
+- `:Colorscheme`: Open a menu to preview and select a colorscheme
 
 ## Installation
 
@@ -11,7 +11,7 @@ With [lazy.nvim][lazy-nvim]:
 ```lua
 -- plugins.lua
 return {
-  "spenserblack/colorschemecycle.nvim",
+  "spenserblack/colorscheme.nvim",
   -- ...
 }
 ```
@@ -36,7 +36,7 @@ There are several helper functions to allow you to manage the known colorschemes
 
 ```lua
 -- For each of these, there is a dark/light/neutral counterpart
-require("colorschemecycle").add_dark_colorscheme("black")
-require("colorschemecycle").remove_light_colorscheme("default")
-require("colorschemecycle").set_neutral_colorschemes({ "red", "green", "blue" })
+require("colorscheme").add_dark_colorscheme("black")
+require("colorscheme").remove_light_colorscheme("default")
+require("colorscheme").set_neutral_colorschemes({ "red", "green", "blue" })
 ```
