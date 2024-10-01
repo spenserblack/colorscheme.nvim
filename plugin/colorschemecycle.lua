@@ -12,14 +12,6 @@ end
 
 local index, _ = selected_color()
 
-local function increment_index()
-  index = (index % #colors) + 1
-end
-
-local function decrement_index()
-  index = ((index - 2) % #colors) + 1
-end
-
 local function show_menu()
   local previous_color = vim.g.colors_name
   local Menu = require("nui.menu")
@@ -78,26 +70,13 @@ end
 
 local function cycle_colorscheme(opts)
   index, _ = selected_color()
-  local direction = opts.fargs[1] or 'select'
-  if direction == 'next' then
-    increment_index()
-  elseif direction == 'prev' then
-    decrement_index()
-  elseif direction == 'select' then
-    show_menu()
-    return
-  end
+  show_menu()
   local selected = colors[index]
   vim.cmd.colorscheme(selected)
   print(selected)
 end
 
-local function completions(ArgLead, CmdLine, CursorPos)
-  return { "next", "prev", "select" }
-end
-
 vim.api.nvim_create_user_command('ColorschemeCycle', cycle_colorscheme, {
   nargs = "?",
-  complete = completions,
 })
 
