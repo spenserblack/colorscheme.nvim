@@ -104,3 +104,14 @@ end
 vim.api.nvim_create_user_command('Colorscheme', show_menu, {
   nargs = 0,
 })
+
+local function toggle_theme()
+  local next_theme = (vim.o.background == "dark" and "light") or "dark"
+  local theme = require("colorscheme").resolve_theme(next_theme)
+  vim.o.background = theme.background
+  vim.cmd.colorscheme(theme.colorscheme)
+end
+
+vim.api.nvim_create_user_command("ColorschemeToggle", toggle_theme, {
+  nargs = 0,
+})
