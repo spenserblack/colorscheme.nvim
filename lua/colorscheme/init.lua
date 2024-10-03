@@ -121,27 +121,22 @@ Module.has_light_colorscheme = has_colorscheme_factory(light_colorschemes)
 Module.has_neutral_colorscheme = has_colorscheme_factory(neutral_colorschemes)
 
 function get_system_theme()
-  -- TODO implement
+  return require("colorscheme.systemtheme")
 end
 
-function get_preferred_colorscheme(theme_mode)
+function resolve_theme(theme_mode)
   if theme_mode == "dark" then
-    return preferred_dark_colorscheme
+    return { background = "dark", colorscheme = preferred_dark_colorscheme }
   elseif theme_mode == "light" then
-    return preferred_light_colorscheme
+    return { background = "light", colorscheme = preferred_light_colorscheme }
   elseif theme_mode == "system" then
-    return get_preferred_colorscheme(get_system_theme())
-  end
-end
-
-function Module.get_preferred_colorscheme()
-  if theme_mode == "dark" then
-    return preferred_dark_colorscheme
-  elseif theme_mode == "light" then
-    return preferred_light_colorscheme
-  elseif theme_mode == "system" then
+    return resolve_theme(get_system_theme())
   end
   return nil
+end
+
+function Module.resolve_theme()
+  return resolve_theme(theme_mode)
 end
 
 function Module.setup(opts)
@@ -156,6 +151,9 @@ function Module.setup(opts)
   end
   if opts.theme_mode then
     theme_mode = opts.theme_mode
+    local theme = resolve_theme(theme_mode)
+    vim.o.background = theme.background
+    vim.cmd.colorscheme(theme.colorscheme)
   end
 end
 
