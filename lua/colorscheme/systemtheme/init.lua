@@ -1,5 +1,5 @@
 local function get_os()
-  local os_name = (vim.loop.os_uname().sysname or ""):lower()
+  local os_name = (vim.uv.os_uname().sysname or ""):lower()
   if os_name:find("linux") then
     return "linux"
   end
