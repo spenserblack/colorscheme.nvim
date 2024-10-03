@@ -40,6 +40,10 @@ local default_neutral_colorschemes = {
   "blue",
 }
 
+local preferred_dark_colorscheme = "default"
+local preferred_light_colorscheme = "default"
+local theme_mode = nil
+
 local function set_as_sorted_list(set)
   sorted = {}
   for k in pairs(set) do
@@ -115,5 +119,42 @@ end
 Module.has_dark_colorscheme = has_colorscheme_factory(dark_colorschemes)
 Module.has_light_colorscheme = has_colorscheme_factory(light_colorschemes)
 Module.has_neutral_colorscheme = has_colorscheme_factory(neutral_colorschemes)
+
+function get_system_theme()
+  return require("colorscheme.systemtheme")
+end
+
+function resolve_theme(theme_mode)
+  if theme_mode == "dark" then
+    return { background = "dark", colorscheme = preferred_dark_colorscheme }
+  elseif theme_mode == "light" then
+    return { background = "light", colorscheme = preferred_light_colorscheme }
+  elseif theme_mode == "system" then
+    return resolve_theme(get_system_theme())
+  end
+  return nil
+end
+
+function Module.resolve_theme()
+  return resolve_theme(theme_mode)
+end
+
+function Module.setup(opts)
+  if not opts then
+    return
+  end
+  if opts.preferred_dark_colorscheme then
+    preferred_dark_colorscheme = opts.preferred_dark_colorscheme
+  end
+  if opts.preferred_light_colorscheme then
+    preferred_light_colorscheme = opts.preferred_light_colorscheme
+  end
+  if opts.theme_mode then
+    theme_mode = opts.theme_mode
+    local theme = resolve_theme(theme_mode)
+    vim.o.background = theme.background
+    vim.cmd.colorscheme(theme.colorscheme)
+  end
+end
 
 return Module
