@@ -135,7 +135,8 @@ function resolve_theme(theme_mode)
   return nil
 end
 
-function Module.resolve_theme()
+function Module.resolve_theme(mode)
+  local theme_mode = mode or theme_mode
   return resolve_theme(theme_mode)
 end
 
