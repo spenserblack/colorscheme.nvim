@@ -60,9 +60,9 @@ require("colorscheme").setup({
 })
 ```
 
-#### Adding and removing new colorschemes to the menu
+#### Adding and removing colorschemes in the menu
 
-This plugin comes with a default list of selectable plugins, based on the defaults that
+This plugin comes with a default list of selectable colorschemes, based on the defaults that
 come with Neovim 0.10.1. Unfortunately, if you add your own custom colorscheme, this
 plugin will not be aware of it. This is because this plugin currently doesn't know if it
 should put your colorscheme under the "dark", "light", or "neutral" colorscheme sections.
