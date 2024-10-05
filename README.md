@@ -3,6 +3,7 @@
 ## Usage
 
 - `:Colorscheme`: Open a menu to preview and select a colorscheme
+- `:ColorschemeToggle`: Switch between your preferred dark and light colorschemes
 
 ## Installation
 
