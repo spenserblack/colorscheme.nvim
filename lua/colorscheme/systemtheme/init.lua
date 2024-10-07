@@ -1,13 +1,17 @@
 local function get_os()
-  local os_name = (vim.uv.os_uname().sysname or ""):lower()
-  if os_name:find("linux") then
-    return "linux"
+  local sysname = (vim.uv.os_uname().sysname or ""):lower()
+
+  local finders = {
+    linux = "linux",
+    windows = "windows",
+  }
+  for hint, os_name in pairs(finders) do
+    if sysname:find(hint) then
+      return os_name
+    end
   end
+
   return "unknown"
 end
 
-local os = get_os()
-if os == "linux" then
-  return require("colorscheme.systemtheme.linux")
-end
-return "light"
+return require(string.format("colorscheme.systemtheme.%s", get_os()))

@@ -47,8 +47,8 @@ query the preferred theme.
 background of your terminal. This is different from querying the system theme, but this
 might be good enough for you. Some colorschemes have both a dark and light mode.
 
-**WARNING:** Detecting the system theme currently only works on *Linux with a GNOME DE.*
-Any help to expand support is appreciated.
+**WARNING:** Detecting the system theme currently only works on Windows and Linux
+*with a GNOME DE.* Any help to expand support is appreciated.
 
 ##### Example
 
