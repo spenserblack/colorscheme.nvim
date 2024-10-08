@@ -120,11 +120,11 @@ M.has_dark_colorscheme = has_colorscheme_factory(dark_colorschemes)
 M.has_light_colorscheme = has_colorscheme_factory(light_colorschemes)
 M.has_neutral_colorscheme = has_colorscheme_factory(neutral_colorschemes)
 
-function get_system_theme()
+local function get_system_theme()
   return require("colorscheme.systemtheme")
 end
 
-function resolve_theme(theme_mode)
+local function resolve_theme(theme_mode)
   if theme_mode == "dark" then
     return { background = "dark", colorscheme = preferred_dark_colorscheme }
   elseif theme_mode == "light" then
