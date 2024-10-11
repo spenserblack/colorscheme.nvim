@@ -1,18 +1,32 @@
 local M = {}
 
-local Set = {}
-
-Set.mt = {
-  __index = function() return false end,
+local Set = {
+  Items = {
+    __index = function() return false end,
+  },
 }
+Set.__index = Set
 
-function Set.new(items)
-  local set = {}
+function Set:new(items)
+  local set = { items = {} }
   for _, item in ipairs(items) do
-    set[item] = true
+    set.items[item] = true
   end
-  setmetatable(set, Set.mt)
+  setmetatable(set, self)
+  setmetatable(set.items, self.Items)
   return set
+end
+
+function Set:has(item)
+  return self.items[item]
+end
+
+function Set:add(item)
+  self.items[item] = true
+end
+
+function Set:remove(item)
+  self.items[item] = nil
 end
 
 local preferred_dark_colorscheme = "default"
@@ -28,7 +42,7 @@ local function set_as_sorted_list(set)
   return sorted
 end
 
-local dark_colorschemes = Set.new{
+local dark_colorschemes = Set:new{
   "darkblue",
   "default",
   "desert",
@@ -50,7 +64,7 @@ local dark_colorschemes = Set.new{
   "wildcharm",
   "zaibatsu",
 }
-local light_colorschemes = Set.new{
+local light_colorschemes = Set:new{
   "default",
   "delek",
   "lunaperche",
@@ -62,25 +76,25 @@ local light_colorschemes = Set.new{
   "wildcharm",
   "zellner",
 }
-local neutral_colorschemes = Set.new{"blue"}
+local neutral_colorschemes = Set:new{"blue"}
 
 local function add_colorscheme_factory(colorschemes)
   local function add_colorscheme(colorscheme)
-    colorschemes[colorscheme] = true
+    colorschemes:add(colorscheme)
   end
   return add_colorscheme
 end
 
 local function remove_colorscheme_factory(colorschemes)
   local function remove_colorscheme(colorscheme)
-    colorschemes[colorscheme] = nil
+    colorschemes:remove(colorscheme)
   end
   return remove_colorscheme
 end
 
 local function has_colorscheme_factory(colorschemes)
   local function has_colorscheme(colorscheme)
-    return colorschemes[colorscheme]
+    return colorschemes:has(colorscheme)
   end
   return has_colorscheme
 end
@@ -104,13 +118,13 @@ function M.get_neutral_colorschemes()
 end
 
 function M.set_dark_colorschemes(colorschemes)
-  dark_colorschemes = Set.new(colorschemes)
+  dark_colorschemes = Set:new(colorschemes)
 end
 function M.set_light_colorschemes(colorschemes)
-  light_colorschemes = Set.new(colorschemes)
+  light_colorschemes = Set:new(colorschemes)
 end
 function M.set_neutral_colorschemes(colorschemes)
-  neutral_colorschemes = Set.new(colorschemes)
+  neutral_colorschemes = Set:new(colorschemes)
 end
 
 M.has_dark_colorscheme = has_colorscheme_factory(dark_colorschemes)
