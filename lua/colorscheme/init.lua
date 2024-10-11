@@ -1,6 +1,27 @@
 local M = {}
 
-local default_dark_colorschemes = {
+local function Set(items)
+  local set = {}
+  for _, item in ipairs(items) do
+    set[item] = true
+  end
+  return set
+end
+
+local preferred_dark_colorscheme = "default"
+local preferred_light_colorscheme = "default"
+local theme_mode = nil
+
+local function set_as_sorted_list(set)
+  sorted = {}
+  for k in pairs(set) do
+    table.insert(sorted, k)
+  end
+  table.sort(sorted)
+  return sorted
+end
+
+local dark_colorschemes = Set{
   "darkblue",
   "default",
   "desert",
@@ -22,8 +43,7 @@ local default_dark_colorschemes = {
   "wildcharm",
   "zaibatsu",
 }
-
-local default_light_colorschemes = {
+local light_colorschemes = Set{
   "default",
   "delek",
   "lunaperche",
@@ -35,35 +55,7 @@ local default_light_colorschemes = {
   "wildcharm",
   "zellner",
 }
-
-local default_neutral_colorschemes = {
-  "blue",
-}
-
-local preferred_dark_colorscheme = "default"
-local preferred_light_colorscheme = "default"
-local theme_mode = nil
-
-local function set_as_sorted_list(set)
-  sorted = {}
-  for k in pairs(set) do
-    table.insert(sorted, k)
-  end
-  table.sort(sorted)
-  return sorted
-end
-
-local function list_as_set(list)
-  set = {}
-  for _, v in ipairs(list) do
-    set[v] = true
-  end
-  return set
-end
-
-local dark_colorschemes = list_as_set(default_dark_colorschemes)
-local light_colorschemes = list_as_set(default_light_colorschemes)
-local neutral_colorschemes = list_as_set(default_neutral_colorschemes)
+local neutral_colorschemes = Set{"blue"}
 
 local function add_colorscheme_factory(colorschemes)
   local function add_colorscheme(colorscheme)
@@ -107,13 +99,13 @@ function M.get_neutral_colorschemes()
 end
 
 function M.set_dark_colorschemes(colorschemes)
-  dark_colorschemes = list_as_set(colorschemes)
+  dark_colorschemes = Set(colorschemes)
 end
 function M.set_light_colorschemes(colorschemes)
-  light_colorschemes = list_as_set(colorschemes)
+  light_colorschemes = Set(colorschemes)
 end
 function M.set_neutral_colorschemes(colorschemes)
-  neutral_colorschemes = list_as_set(colorschemes)
+  neutral_colorschemes = Set(colorschemes)
 end
 
 M.has_dark_colorscheme = has_colorscheme_factory(dark_colorschemes)
