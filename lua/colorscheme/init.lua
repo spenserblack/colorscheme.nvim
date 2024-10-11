@@ -1,10 +1,17 @@
 local M = {}
 
-local function Set(items)
+local Set = {}
+
+Set.mt = {
+  __index = function() return false end,
+}
+
+function Set.new(items)
   local set = {}
   for _, item in ipairs(items) do
     set[item] = true
   end
+  setmetatable(set, Set.mt)
   return set
 end
 
@@ -21,7 +28,7 @@ local function set_as_sorted_list(set)
   return sorted
 end
 
-local dark_colorschemes = Set{
+local dark_colorschemes = Set.new{
   "darkblue",
   "default",
   "desert",
@@ -43,7 +50,7 @@ local dark_colorschemes = Set{
   "wildcharm",
   "zaibatsu",
 }
-local light_colorschemes = Set{
+local light_colorschemes = Set.new{
   "default",
   "delek",
   "lunaperche",
@@ -55,7 +62,7 @@ local light_colorschemes = Set{
   "wildcharm",
   "zellner",
 }
-local neutral_colorschemes = Set{"blue"}
+local neutral_colorschemes = Set.new{"blue"}
 
 local function add_colorscheme_factory(colorschemes)
   local function add_colorscheme(colorscheme)
@@ -73,9 +80,7 @@ end
 
 local function has_colorscheme_factory(colorschemes)
   local function has_colorscheme(colorscheme)
-    -- NOTE I don't like `== true`, but this casts `nil` to `false`, just in case
-    --      someone expects a boolean.
-    return colorschemes[colorscheme] == true
+    return colorschemes[colorscheme]
   end
   return has_colorscheme
 end
@@ -99,13 +104,13 @@ function M.get_neutral_colorschemes()
 end
 
 function M.set_dark_colorschemes(colorschemes)
-  dark_colorschemes = Set(colorschemes)
+  dark_colorschemes = Set.new(colorschemes)
 end
 function M.set_light_colorschemes(colorschemes)
-  light_colorschemes = Set(colorschemes)
+  light_colorschemes = Set.new(colorschemes)
 end
 function M.set_neutral_colorschemes(colorschemes)
-  neutral_colorschemes = Set(colorschemes)
+  neutral_colorschemes = Set.new(colorschemes)
 end
 
 M.has_dark_colorscheme = has_colorscheme_factory(dark_colorschemes)
