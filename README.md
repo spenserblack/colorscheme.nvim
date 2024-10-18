@@ -43,8 +43,9 @@ preferred colors. This will be determined when the plugin first starts up and ne
 query the preferred theme.
 
 If `theme_mode` fails to detect an appropriate theme, you can use `theme_mode_fallback`
-to provide a value that should be used instead. This is only relevant when
-`theme_mode == "system"`. `theme_mode_fallback` should be either `dark` or `light`.
+to specify a value that should be used instead. This is only relevant when
+`theme_mode` is set to `"system"`. `theme_mode_fallback` should be either `"dark"` or
+`"light"`.
 
 **NOTE:** If you want to dynamically change the colorscheme's background,
 *you may not need this plugin.* Neovim should set your `background` option based on the
