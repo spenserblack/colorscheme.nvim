@@ -2,7 +2,7 @@ local function get_system_theme()
   local system_root = os.getenv("SystemRoot") or ""
   -- NOTE If %SystemRoot% isn't set for whatever reason, escape
   if system_root == "" then
-    return "light"
+    return nil
   end
   local reg_path = table.concat(
     {
@@ -33,7 +33,7 @@ local function get_system_theme()
   local apps_use_light_theme = handle:read("*a"):match("0x(%x+)")
   handle:close()
   if not apps_use_light_theme then
-    return "light"
+    return nil
   end
   if tonumber(apps_use_light_theme, 16) == 0 then
     return "dark"

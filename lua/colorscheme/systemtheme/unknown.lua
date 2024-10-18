@@ -1,1 +1,1 @@
-return "light"
+return nil
