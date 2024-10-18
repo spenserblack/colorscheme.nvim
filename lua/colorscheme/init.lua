@@ -29,18 +29,18 @@ function Set:remove(item)
   self.items[item] = nil
 end
 
-local preferred_dark_colorscheme = "default"
-local preferred_light_colorscheme = "default"
-local theme_mode = nil
-
-local function set_as_sorted_list(set)
+function Set:as_sorted_list()
   sorted = {}
-  for k in pairs(set) do
+  for k in pairs(self.items) do
     table.insert(sorted, k)
   end
   table.sort(sorted)
   return sorted
 end
+
+local preferred_dark_colorscheme = "default"
+local preferred_light_colorscheme = "default"
+local theme_mode = nil
 
 local dark_colorschemes = Set:new{
   "darkblue",
@@ -108,13 +108,13 @@ M.remove_light_colorscheme = remove_colorscheme_factory(light_colorschemes)
 M.remove_neutral_colorscheme = remove_colorscheme_factory(neutral_colorschemes)
 
 function M.get_dark_colorschemes()
-  return set_as_sorted_list(dark_colorschemes)
+  return dark_colorschemes:as_sorted_list()
 end
 function M.get_light_colorschemes()
-  return set_as_sorted_list(light_colorschemes)
+  return light_colorschemes:as_sorted_list()
 end
 function M.get_neutral_colorschemes()
-  return set_as_sorted_list(neutral_colorschemes)
+  return neutral_colorschemes:as_sorted_list()
 end
 
 function M.set_dark_colorschemes(colorschemes)
