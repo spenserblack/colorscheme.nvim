@@ -25,8 +25,7 @@ local function get_system_theme()
   if desktop_environment == "gnome" then
     return get_gnome_system_theme()
   end
-  -- NOTE Assume "light" if unknown since most systems are light by default.
-  return "light"
+  return nil
 end
 
 return get_system_theme()

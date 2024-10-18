@@ -163,7 +163,7 @@ function M.setup(opts)
   end
   if opts.theme_mode then
     theme_mode = opts.theme_mode
-    local theme = resolve_theme(theme_mode)
+    local theme = resolve_theme(theme_mode) or resolve_theme(opts.theme_mode_fallback) or "light"
     vim.o.background = theme.background
     vim.cmd.colorscheme(theme.colorscheme)
   end

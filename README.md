@@ -42,6 +42,11 @@ When the `theme_mode` is `system`, this plugin will do its best to guess your sy
 preferred colors. This will be determined when the plugin first starts up and needs to
 query the preferred theme.
 
+If `theme_mode` fails to detect an appropriate theme, you can use `theme_mode_fallback`
+to specify a value that should be used instead. This is only relevant when
+`theme_mode` is set to `"system"`. `theme_mode_fallback` should be either `"dark"` or
+`"light"`.
+
 **NOTE:** If you want to dynamically change the colorscheme's background,
 *you may not need this plugin.* Neovim should set your `background` option based on the
 background of your terminal. This is different from querying the system theme, but this
@@ -57,6 +62,7 @@ require("colorscheme").setup({
   preferred_dark_colorscheme = "habamax",
   preferred_light_colorscheme = "default",
   theme_mode = "system",
+  theme_mode_fallback = "dark",
 })
 ```
 
